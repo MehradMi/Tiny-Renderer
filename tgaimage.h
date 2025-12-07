@@ -32,6 +32,13 @@ struct TGAColor {
 };
 
 struct TGAImage {
+  /*
+   * The following enumerator representes
+   * the number of "bytes" needed to store per pixel. That is
+   * GRAYSCALE = 1 Byte -> 8 bits per pixel
+   * RGB = 3 Bytes -> 24 bits per pixel
+   * RGBA = 4 Bytes -> 32 bits per pixel
+   */
   enum Format { GRAYSCALE = 1, RGB = 3, RGBA = 4 };
 
   // Default Constructor
