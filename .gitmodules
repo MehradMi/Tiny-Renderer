@@ -1,0 +1,3 @@
+[submodule "src/tga-image-api"]
+	path = src/tga-image-api
+	url = https://github.com/MehradMi/TGA-Image-API.git
