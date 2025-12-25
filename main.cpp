@@ -1,5 +1,6 @@
 #include "./src/tga-image-api/tgaimage.h"
 #include <cmath>
+#include <ratio>
 #include <utility>
 
 // NOTE: TGAColor uses BGRA order instead of RGBA
@@ -9,33 +10,73 @@ constexpr TGAColor green = {0, 255, 0, 255};
 constexpr TGAColor red = {0, 0, 255, 255};
 constexpr TGAColor yellow = {0, 200, 255, 255};
 
-void drawLine(int x0, int y0, int x1, int y1, TGAImage &framebuffer,
-              TGAColor color) {
-  const int dx = x1 - x0;
-  const int dy = y1 - y0;
-  bool steep = dy > dx;
-  if (steep) {
-    std::swap(x0, y0);
-    std::swap(x1, y1);
+void drawNonSteepLine(int x0, int y0, int x1, int y1, TGAImage &framebuffer,
+                      TGAColor color) {
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int yi = 1;
+
+  // dy < 0 -> the line is rising
+  // NOTE: "y" needs to decrease to rise
+  if (dy < 0) {
+    yi = -1;
+    dy = -dy;
   }
+
   int decision = (dy << 1) - dx;
   int y = y0;
 
   for (int x{x0}; x <= x1; x++) {
-    if (steep) {
-      framebuffer.set(y, x, color);
-    } else {
-
-      framebuffer.set(x, y, color);
-    }
-    // decision: d0 - d1 -> Thus, if it is positive
-    // then the pixel above "p" must be colored.
+    framebuffer.set(x, y, color);
     if (decision > 0) {
-      y++;
+      y += yi;
       decision += (dy - dx) << 1;
     } else {
       decision += dy << 1;
     }
+  }
+}
+
+void drawSteepLine(int x0, int y0, int x1, int y1, TGAImage &framebuffer,
+                   TGAColor color) {
+  int dx = x1 - x0;
+  int dy = y1 - y0;
+  int xi = 1;
+
+  if (dx < 0) {
+    xi = -1;
+    dx = -dx;
+  }
+
+  int decision = (dx << 1) - dy;
+  int x = x0;
+
+  for (int y{y0}; y <= y1; y++) {
+    framebuffer.set(x, y, color);
+    if (decision > 0) {
+      x += xi;
+      decision += (dx - dy) << 1;
+    } else {
+      decision += dx << 1;
+    }
+  }
+}
+
+void drawLine(int x0, int y0, int x1, int y1, TGAImage &framebuffer,
+              TGAColor color) {
+  if (std::abs(y1 - y0) < std::abs(x1 - x0)) {
+    // NOTE: We draw from left to right
+    // Thus, we call the drawNonSteepLine function in a way
+    // that we make sure we pass the left point first to the function
+    if (x0 > x1)
+      drawNonSteepLine(x1, y1, x0, y0, framebuffer, color);
+    else
+      drawNonSteepLine(x0, y0, x1, y1, framebuffer, color);
+  } else {
+    if (y0 > y1)
+      drawSteepLine(x1, y1, x0, y0, framebuffer, color);
+    else
+      drawSteepLine(x0, y0, x1, y1, framebuffer, color);
   }
 }
 
