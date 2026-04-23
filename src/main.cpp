@@ -1,19 +1,11 @@
 #include <SDL2/SDL.h>
-#include <cstdint>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
+#include <sys/types.h>
 #include "window.h"
 #include "renderer.h"
-#include "color_buffer.h"
 
-uint32_t *color_buffer {nullptr};
-SDL_Texture *color_buffer_texture {nullptr};
-
-/*
-void setup_prog(void) {
-  color_buffer = new (std::nothrow) uint32_t[800 * 600];
-
-  color_buffer_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 800, 600);
-}
-*/
+void initialize_cb(Renderer *renderer, uint32_t cbt_format, int access);
 
 /*
 void terminate_prog(void) {
@@ -24,68 +16,60 @@ void terminate_prog(void) {
 }
 */
 
+void process_input(Window *window);
+
+void update(void);
+
+int main() {
+
+  Window      *program_window = new Window(
+      "Tiny Renderer",
+      SDL_WINDOWPOS_CENTERED,
+      SDL_WINDOWPOS_CENTERED,
+      1920, 1080,
+      SDL_WINDOW_BORDERLESS);
+
+  Renderer    *program_renderer       = new Renderer(program_window, -1, 0);
+
+  program_renderer->setCBResolution(program_window->getWidth(), program_window->getHeight());
+  program_renderer->setCBTResolution(program_window->getWidth(), program_window->getHeight());
+
+  initialize_cb(
+      program_renderer,
+      SDL_PIXELFORMAT_ARGB8888,
+      SDL_TEXTUREACCESS_STATIC);
+
+  while (!program_window->getShouldClose()) {
+    process_input(program_window);
+    program_renderer->render();
+  }
+
+  //terminate_prog();
+
+  return 0;
+}
+
+
+void initialize_cb(Renderer *renderer, uint32_t cbt_format, int access) {
+  renderer->genColorBuffer();
+  renderer->genColorBufferTexture(cbt_format, access);
+}
+
 void process_input(Window *window) {
   SDL_Event event;
   SDL_PollEvent(&event);
 
   switch (event.type) {
     case SDL_QUIT:
-      window->set_should_close(true);
+      window->setShouldClose(true);
       break;
     case SDL_KEYDOWN:
       if (event.key.keysym.sym == SDLK_ESCAPE) 
-        window->set_should_close(true);
+        window->setShouldClose(true);
       break;
   }
 }
 
 void update(void) {
   // TODO
-}
-
-/*
-void render_color_buffer(void) {
-  SDL_UpdateTexture(color_buffer_texture, nullptr, color_buffer, 800 * sizeof(uint32_t));
-  SDL_RenderCopy(renderer, color_buffer_texture, nullptr, nullptr);
-}
-*/
-
-void clear_color_buffer(uint32_t color) {
-  for (auto y{0}; y < 600; y++) {
-    for (auto x{0}; x < 800; x++) {
-      color_buffer[(800 * y) + x] = color;
-    }
-  }
-}
-
-/*
-void render(void) {
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-  SDL_RenderClear(renderer);
-
-  render_color_buffer();
-  clear_color_buffer(0xFFFFFF00);
-
-  SDL_RenderPresent(renderer);
-}
-*/
-
-int main() {
-
-  Window      *program_window = new Window("Tiny Renderer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_BORDERLESS);
-  Renderer    *program_renderer       = new Renderer(program_window, -1, 0);
-  ColorBuffer *color_buffer   = new ColorBuffer(program_window->get_width(), program_window->get_height());
-
-  //setup_prog();
-
-  while (!program_window->get_should_close()) {
-    process_input(program_window);
-    program_renderer->render();
-    color_buffer->render(program_renderer);
-    color_buffer->clear_buffer(0xFFFFFF00);
-  }
-
-  //terminate_prog();
-
-  return 0;
 }

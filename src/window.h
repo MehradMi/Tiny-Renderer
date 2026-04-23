@@ -8,14 +8,15 @@
 class Window {
   public:
     Window();
+    Window(const char* title, int x, int y, int flags);
     Window(const char* title, int x, int y, int width, int height, int flags);
 
-    int  get_width();                               // getter: get window width
-    int  get_height();                              // getter: get window height
-    void set_should_close(bool shouldClose);        // setter: set m_should_close for window
-    bool get_should_close();                        // getter: get m_should_close
-    bool get_fail_bit();                            // getter: get fail_bit status
-    SDL_Window* get_sdl_window();                   // getter: get m_window
+    int  getWidth();                               // getter: get window width
+    int  getHeight();                              // getter: get window height
+    void setShouldClose(bool shouldClose);        // setter: set m_should_close for window
+    bool getShouldClose();                        // getter: get m_should_close
+    bool getFailBit();                            // getter: get fail_bit status
+    SDL_Window* getSDLWindow();                   // getter: get m_window
 
   private:
     SDL_Window *m_window;                           // pointer to SDL window
@@ -28,6 +29,7 @@ class Window {
     bool m_fail_bit;
     bool m_should_close;
 
+    bool initialize_sdl();
     bool create_window();
     void set_fail_bit(bool isFailed);
 };

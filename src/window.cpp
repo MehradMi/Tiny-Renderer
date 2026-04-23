@@ -12,13 +12,53 @@ Window::Window():
   m_fail_bit(false),
   m_should_close(false)
 {
-  create_window();
+  if (!initialize_sdl()) {
+    set_fail_bit(true);
+    exit(1);
+  }
+
+  if (!create_window()) {
+    set_fail_bit(true);
+    exit(1);
+  }
+}
+
+Window::Window(const char* title, int x, int y, int flags):
+  m_window(nullptr),
+  m_should_close(false)
+{
+  if (!initialize_sdl()) {
+    set_fail_bit(true);
+    exit(1);
+  }
+
+  m_win_title = title;
+  m_posX      = x;
+  m_posY      = y;
+  m_flags = flags;
+
+  SDL_DisplayMode display_mode;
+  SDL_GetCurrentDisplayMode(0, &display_mode);
+  m_width  = display_mode.w;
+  m_height = display_mode.h;
+
+  if (!create_window()) {
+    set_fail_bit(true);
+    exit(1);
+  } else {
+    std::cout << m_width << " " << m_height << std::endl;
+  }
 }
 
 Window::Window(const char* title, int x, int y, int width, int height, int flags):
   m_window(nullptr),
   m_should_close(false)
 {
+  if (!initialize_sdl()) {
+    set_fail_bit(true);
+    exit(1);
+  }
+
   m_win_title = title;
   m_posX      = x;
   m_posY      = y;
@@ -32,13 +72,17 @@ Window::Window(const char* title, int x, int y, int width, int height, int flags
   }
 }
 
-bool Window::create_window() {
+bool Window::initialize_sdl() {
   // Initialize SDL (Everything)
   if (!SDL_Init(SDL_INIT_EVERYTHING)) {
     std::cerr << "ERROR::SDL::SDL_INITIALIZATION_FAILED" << std::endl;
     return false;
   }
 
+  return true;
+}
+
+bool Window::create_window() {
   // Create SDL Window
   m_window = SDL_CreateWindow(m_win_title, m_posX, m_posY, m_width, m_height, m_flags);
   if (!m_window) {
@@ -49,23 +93,23 @@ bool Window::create_window() {
   return true;
 }
 
-int Window::get_width() {
+int Window::getWidth() {
   return m_width;
 }
 
-int Window::get_height() {
+int Window::getHeight() {
   return m_height;
 }
 
-SDL_Window* Window::get_sdl_window() {
+SDL_Window* Window::getSDLWindow() {
   return m_window;
 }
 
-void Window::set_should_close(bool shouldClose) {
+void Window::setShouldClose(bool shouldClose) {
   m_should_close = shouldClose;
 }
 
-bool Window::get_should_close() {
+bool Window::getShouldClose() {
   return m_should_close;
 }
 
