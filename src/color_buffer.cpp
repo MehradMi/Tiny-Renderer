@@ -26,9 +26,10 @@ pixel* ColorBuffer::getBuffer() {
   return m_cb;
 }
 
-void ColorBuffer::colorPixel(int x, int y, hex_color color) {
+void ColorBuffer::drawPixel(hex_color color ,int x, int y) {
   try {
-    m_cb[ (m_width * y) + x] = color;
+    if (x >= 0 && x < m_width && y >= 0 && y < m_height)
+      m_cb[ (m_width * y) + x] = color;
   } catch(const std::exception &e) {
     std::cerr << "ERROR::COLOR_BUFFER::COLOR_PIXEL FUNCTION FAILED: " << e.what() << std::endl;
   }
@@ -37,12 +38,23 @@ void ColorBuffer::colorPixel(int x, int y, hex_color color) {
 void ColorBuffer::clear(hex_color color) {
     for (int y{0}; y < m_height; y++)
       for (int x{0}; x < m_width; x++)
-        colorPixel(x, y, color);
+        drawPixel(color, x, y);
 }
 
 void ColorBuffer::drawGrid(hex_color color, int x_interval, int y_interval) {
   for (auto y{0}; y < m_height; y++)
     for (auto x{0}; x < m_width; x++)
       if (y % y_interval == 0 || x % x_interval == 0)
-        colorPixel(x, y, color);
+        drawPixel(color, x, y);
+}
+
+void ColorBuffer::drawRectangle(hex_color color, int x_pos, int y_pos, int w, int h) {
+  for (int i {0}; i < w; i++) {
+    for (int j{0}; j < h; j++) {
+      int cur_x = x_pos + i;
+      int cur_y = y_pos + j;
+      drawPixel(color, cur_x, cur_y);
+      //m_cb [ (cur_y * m_width) + cur_x ] = color;
+    }
+  }
 }

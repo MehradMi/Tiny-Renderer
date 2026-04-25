@@ -21,9 +21,10 @@ class ColorBuffer {
     int getPitch();
     pixel* getBuffer();
 
-    void colorPixel(int x, int y, hex_color color);
     void clear(hex_color color);
+    void drawPixel(hex_color color, int x, int y);
     void drawGrid(hex_color color, int x_interval = 10, int y_interval = 10);
+    void drawRectangle(hex_color color, int x, int y, int w, int h);
 };
 
 #endif

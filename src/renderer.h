@@ -31,7 +31,5 @@ class Renderer {
 
     void setColorBuffer(ColorBuffer *cb);
     void setColorBufferTexture(ColorBufferTexture *cbt);
-
-    void drawRectangle(hex_color color, int x_pos, int y_pos, int w, int h);
 };
 #endif

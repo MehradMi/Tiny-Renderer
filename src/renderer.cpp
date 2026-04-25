@@ -1,7 +1,4 @@
 #include "renderer.h"
-#include <SDL2/SDL_render.h>
-#include <cstdint>
-#include <cstdlib>
 
 Renderer::Renderer(Window *window, int index, uint32_t flags):
   m_renderer(nullptr),
@@ -48,15 +45,3 @@ void Renderer::setColorBuffer(ColorBuffer *cb) {
 void Renderer::setColorBufferTexture(ColorBufferTexture *cbt) {
   m_cbt = cbt;
 }
-
-/*
-void Renderer::drawRectangle(hex_color color, int x_pos, int y_pos, int w, int h) {
-  for (int i {0}; i < w; i++) {
-    for (int j{0}; j < h; j++) {
-      int cur_x = x_pos + i;
-      int cur_y = y_pos + j;
-      m_cb [ (cur_y * m_cb_width) + cur_x ] = color;
-    }
-  }
-}
-*/
