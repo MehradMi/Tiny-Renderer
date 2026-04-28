@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
 #include <sys/types.h>
 
@@ -10,11 +11,16 @@
 #include "color_buffer.h"
 #include "color_buffer_texture.h"
 
+#define FPS 30
+#define FRAME_TARGET_TIME (1000 / FPS)
+
 ///////////////////////////////////////////////////////////////////////
 // global vars
 ///////////////////////////////////////////////////////////////////////
 ColorBuffer *CB;
 ColorBufferTexture *CBT;
+
+uint32_t previous_frame_time = SDL_GetTicks();
 
 constexpr int VERTICES_COUNT = 9 * 9 * 9;
 constexpr int FOV_FACTOR = 640;
@@ -158,6 +164,18 @@ void process_input(Window *window) {
 }
 
 void update(void) {
+  /*
+  while(!SDL_TICKS_PASSED(SDL_GetTicks(), previous_frame_time + FRAME_TARGET_TIME));
+  */ 
+
+  int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - previous_frame_time);
+
+  if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
+    SDL_Delay(time_to_wait);
+  }
+
+  previous_frame_time =  SDL_GetTicks();
+
   cube_rotation.x += 0.01;
   cube_rotation.y += 0.01;
   cube_rotation.z += 0.01;
