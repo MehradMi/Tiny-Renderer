@@ -19,6 +19,7 @@ ColorBufferTexture *CBT;
 constexpr int VERTICES_COUNT = 9 * 9 * 9;
 constexpr int FOV_FACTOR = 640;
 Vec3D camera_position {0, 0,  -5};
+Vec3D cube_rotation{0, 0, 0};
 Vec3D cube_vertices[VERTICES_COUNT];
 Vec2D projected_vertices[VERTICES_COUNT];
 ///////////////////////////////////////////////////////////////////////
@@ -113,12 +114,6 @@ Vec2D orthographic_proj(Vec3D vector) {
 }
 
 Vec2D perspective_proj(Vec3D vector) {
-  /*
-  Vec2D _projected_point {
-    (vector.x * FOV_FACTOR) / (vector.z ? vector.z: 1),
-    (vector.y * FOV_FACTOR) / (vector.z ? vector.z: 1)
-  };
-  */
   Vec2D _projected_point {
     (vector.x * FOV_FACTOR) / vector.z,
     (vector.y * FOV_FACTOR) / vector.z
@@ -134,7 +129,7 @@ void render(Window *window ,Renderer *renderer) {
   for (int i{0}; i < VERTICES_COUNT; i++) {
     Vec2D _projected_vector = projected_vertices[i];
     CB->drawRectangle(
-        0xFFFFFF00,
+        0x0000FFFF,
         _projected_vector.x + window->getWidth() / 2, 
         _projected_vector.y + window->getHeight() / 2,
         4,
@@ -163,14 +158,23 @@ void process_input(Window *window) {
 }
 
 void update(void) {
+  cube_rotation.x += 0.01;
+  cube_rotation.y += 0.01;
+  cube_rotation.z += 0.01;
+
   for (int i{0}; i < VERTICES_COUNT; i++) {
     Vec3D _vector = cube_vertices[i];
+
+    _vector.Rotate(Axis::X, cube_rotation.x);
+    _vector.Rotate(Axis::Y, cube_rotation.y);
+    _vector.Rotate(Axis::Z, cube_rotation.z);
 
     // moving the vectors away from the camera
     _vector.z -= camera_position.z;
 
     //Vec2D _projected_point = orthographic_proj(_vector);
     Vec2D _projected_point = perspective_proj(_vector);
+    //Vec2D _projected_point = perspective_proj(transformed_point);
     projected_vertices[i] = _projected_point;
   }
 }
