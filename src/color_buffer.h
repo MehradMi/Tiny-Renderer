@@ -23,8 +23,10 @@ class ColorBuffer {
 
     void clear(hex_color color);
     void drawPixel(hex_color color, int x, int y);
+    void drawLine(hex_color color, int x0, int y0, int x1, int y1);
     void drawGrid(hex_color color, int x_interval = 10, int y_interval = 10);
     void drawRectangle(hex_color color, int x, int y, int w, int h);
+    void drawTriangle(hex_color color, int x0, int y0, int x1, int y1, int x2, int y2);
 };
 
 #endif
