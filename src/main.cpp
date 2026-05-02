@@ -193,9 +193,16 @@ void update(Window *window) {
     // loop all three vertices of this current face and apply transformation
     for (int j{0}; j < 3; j++) {
       Vec3D _transformed_vertex = face_vertices[j];
+
       _transformed_vertex.Rotate(Axis::X, myMesh.rotation.x);
       _transformed_vertex.Rotate(Axis::Y, myMesh.rotation.y);
       _transformed_vertex.Rotate(Axis::Z, myMesh.rotation.z);
+
+      /*
+      _transformed_vertex.StrangeRotate(Axis::X, myMesh.rotation.x);
+      _transformed_vertex.StrangeRotate(Axis::Y, myMesh.rotation.y);
+      _transformed_vertex.StrangeRotate(Axis::Z, myMesh.rotation.z);
+      */
 
       // moving the vectors away from the camera
       _transformed_vertex.z -= camera_position.z;

@@ -1,5 +1,4 @@
 #include "color_buffer.h"
-#include "types.h"
 
 ColorBuffer::ColorBuffer(int w, int h):
   m_width(w),
