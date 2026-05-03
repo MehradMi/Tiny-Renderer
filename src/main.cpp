@@ -25,10 +25,12 @@ uint32_t previous_frame_time = SDL_GetTicks();
 
 constexpr int VERTICES_COUNT = 9 * 9 * 9;
 constexpr int FOV_FACTOR = 640;
-Vec3D camera_position {0, 0,  -5};
+Vec3D camera_position {0, 0,  -3};
 Vec2D projected_vertices[VERTICES_COUNT];
 
 std::vector<Triangle> triangles_to_render;
+
+
 ///////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////
@@ -40,9 +42,9 @@ Vec2D perspective_proj(Vec3D vector);
 
 void process_input(Window *window);
 
-void update(Window *window); // TODO
+void update(Window *window);
 
-void terminate(void); // TODO
+void terminate(void); // TODO: implement this sucker
 ///////////////////////////////////////////////////////////////////////
 
 int main() {
@@ -85,7 +87,8 @@ void setup(Window *window, Renderer *renderer) {
   renderer->setColorBuffer(CB);
   renderer->setColorBufferTexture(CBT);
 
-  load_cube_mesh_data();
+  myMesh.loadMeshData("./assets/f22.obj");
+  //load_cube_mesh_data();
 }
 
 Vec2D orthographic_proj(Vec3D vector) {
@@ -179,7 +182,7 @@ void update(Window *window) {
   myMesh.rotation.y += 0.01;
   myMesh.rotation.z += 0.01;
 
-  size_t num_faces = myMesh.faces.size();
+  int num_faces = myMesh.faces.size();
   for (int i{0}; i < num_faces; i++) {
     Face mesh_face = myMesh.faces[i];
 

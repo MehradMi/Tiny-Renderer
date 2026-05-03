@@ -11,14 +11,12 @@ enum Axis {
 
 struct Vec2D {
   public:
-
     float x;
     float y;
 };
 
 struct Vec3D {
   public:
-
     float x;
     float y;
     float z;
