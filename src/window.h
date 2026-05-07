@@ -11,8 +11,8 @@ class Window {
     Window(const char* title, int x, int y, int flags);
     Window(const char* title, int x, int y, int width, int height, int flags);
 
-    int  getWidth();                               // getter: get window width
-    int  getHeight();                              // getter: get window height
+    int  getWidth()  { return m_width; }          // getter: get window width
+    int  getHeight() { return m_height; }         // getter: get window height
     void setShouldClose(bool shouldClose);        // setter: set m_should_close for window
     bool getShouldClose();                        // getter: get m_should_close
     bool getFailBit();                            // getter: get fail_bit status

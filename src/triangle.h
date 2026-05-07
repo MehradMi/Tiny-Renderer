@@ -1,7 +1,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "vector.h"
+#include "Vec2D.h"
 
 struct Face {
   int a, b, c;

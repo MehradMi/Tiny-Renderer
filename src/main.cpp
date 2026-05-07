@@ -7,7 +7,8 @@
 #include <vector>
 
 #include "triangle.h"
-#include "vector.h"
+#include "Vec2D.h"
+#include "Vec3D.h"
 #include "window.h"
 #include "renderer.h"
 #include "color_buffer.h"
@@ -216,18 +217,18 @@ void update(Window *window) {
     Vec3D _vector_b = transformed_vertices[1]; /*  / \  */
     Vec3D _vector_c = transformed_vertices[2]; /* C - B */
 
-    Vec3D vector_ab = vec_sub(_vector_b, _vector_a);
-    Vec3D vector_ac = vec_sub(_vector_c, _vector_a);
+    Vec3D vector_ab = Vec3D::sub(_vector_b, _vector_a);
+    Vec3D vector_ac = Vec3D::sub(_vector_c, _vector_a);
 
     // Compute the face normal (using cross product)
-    Vec3D normal = vec_cross(vector_ab, vector_ac);
-    vec_normalize(normal);
+    Vec3D normal = Vec3D::cross(vector_ab, vector_ac);
+    Vec3D::normalize(normal);
 
     // Compute the camera ray
-    Vec3D camera_ray = vec_sub(camera_position, _vector_a);
+    Vec3D camera_ray = Vec3D::sub(camera_position, _vector_a);
 
     // Compute camera_ray and normal vectors alignment using "dot product"
-    float dot_normal_camera = vec_dot(normal, camera_ray);
+    float dot_normal_camera = Vec3D::dot(normal, camera_ray);
 
     if (dot_normal_camera < 0) {
       continue;

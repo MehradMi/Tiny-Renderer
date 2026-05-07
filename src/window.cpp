@@ -93,14 +93,6 @@ bool Window::create_window() {
   return true;
 }
 
-int Window::getWidth() {
-  return m_width;
-}
-
-int Window::getHeight() {
-  return m_height;
-}
-
 SDL_Window* Window::getSDLWindow() {
   return m_window;
 }

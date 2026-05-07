@@ -9,7 +9,7 @@
 #include <cstring>
 #include <cstdio>
 
-#include "vector.h"
+#include "Vec3D.h"
 #include "triangle.h"
 
 #define NUM_CUBE_VERTICES 8
