@@ -8,7 +8,7 @@ ColorBuffer::ColorBuffer(int w, int h):
 {
   if (m_width && m_height) {
     try {
-      m_cb = new (std::nothrow) pixel[m_width * m_height];
+      m_cb = new pixel[m_width * m_height];
     } catch (const std::exception& e) {
       std::cerr << "ERROR::COLOR_BUFFER::COLOR_BUFFER CONSTRUCTOR FAILED: " << e.what() << std::endl;
       return;
