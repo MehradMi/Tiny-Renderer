@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include <SDL2/SDL_render.h>
 
 Renderer::Renderer(Window *window, int index, uint32_t flags):
   m_renderer(nullptr),
@@ -9,12 +10,18 @@ Renderer::Renderer(Window *window, int index, uint32_t flags):
   m_index  = index;
   m_flags  = flags;
 
-  if (!create_renderer()) {
+  if (!create())
     exit(1);
+}
+
+Renderer::~Renderer() {
+  if (m_renderer) {
+    SDL_DestroyRenderer(m_renderer);
+    m_renderer = nullptr;
   }
 }
 
-bool Renderer::create_renderer() {
+bool Renderer::create() {
   m_renderer = SDL_CreateRenderer(m_window->getSDLWindow(), m_index, m_flags);
   if (!m_renderer) {
     std::cerr << "ERROR::SDL::RENDERER_CREATION_FAILED" << std::endl;
