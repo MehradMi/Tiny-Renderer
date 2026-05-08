@@ -1,4 +1,5 @@
-#include "color_buffer_texture.h"
+#include "ColorBufferTexture.h"
+#include <SDL2/SDL_render.h>
 
 ColorBufferTexture::ColorBufferTexture(SDL_Renderer *r, int w, int h, int a, uint32_t f):
   m_width(w),
@@ -14,7 +15,9 @@ ColorBufferTexture::ColorBufferTexture(SDL_Renderer *r, int w, int h, int a, uin
   }
 }
 
-
-SDL_Texture* ColorBufferTexture::getTexture() {
-  return m_cbt;
+ColorBufferTexture::~ColorBufferTexture() {
+  if (m_cbt) {
+    SDL_DestroyTexture(m_cbt);
+    m_cbt = nullptr;
+  }
 }

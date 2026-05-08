@@ -13,7 +13,7 @@
 #include "renderer.h"
 #include "Rasterizer.h"
 #include "ColorBuffer.h"
-#include "color_buffer_texture.h"
+#include "ColorBufferTexture.h"
 #include "mesh.h"
 
 #define FPS 30

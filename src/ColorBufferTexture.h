@@ -16,8 +16,9 @@ class ColorBufferTexture {
 
   public:
     ColorBufferTexture(SDL_Renderer* r, int w, int h, int a, uint32_t f);
+    ~ColorBufferTexture();
 
-    SDL_Texture* getTexture();
+    SDL_Texture* getTexture() { return m_cbt; }
 };
 
 #endif
