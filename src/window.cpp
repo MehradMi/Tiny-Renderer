@@ -1,4 +1,4 @@
-#include "window.h"
+#include "Window.h"
 #include <SDL2/SDL_video.h>
 
 Window::Window():
@@ -12,25 +12,19 @@ Window::Window():
   m_fail_bit(false),
   m_should_close(false)
 {
-  if (!initialize_sdl()) {
-    set_fail_bit(true);
+  if (!Window::initSDL())
     exit(1);
-  }
 
-  if (!create_window()) {
-    set_fail_bit(true);
+  if (!create())
     exit(1);
-  }
 }
 
 Window::Window(const char* title, int x, int y, int flags):
   m_window(nullptr),
   m_should_close(false)
 {
-  if (!initialize_sdl()) {
-    set_fail_bit(true);
+  if (!Window::initSDL())
     exit(1);
-  }
 
   m_win_title = title;
   m_posX      = x;
@@ -42,22 +36,18 @@ Window::Window(const char* title, int x, int y, int flags):
   m_width  = display_mode.w;
   m_height = display_mode.h;
 
-  if (!create_window()) {
-    set_fail_bit(true);
+  if (!create())
     exit(1);
-  } else {
+  else
     std::cout << m_width << " " << m_height << std::endl;
-  }
 }
 
 Window::Window(const char* title, int x, int y, int width, int height, int flags):
   m_window(nullptr),
   m_should_close(false)
 {
-  if (!initialize_sdl()) {
-    set_fail_bit(true);
+  if (!initSDL())
     exit(1);
-  }
 
   m_win_title = title;
   m_posX      = x;
@@ -66,13 +56,20 @@ Window::Window(const char* title, int x, int y, int width, int height, int flags
   m_height    = height;
   m_flags     = flags;
 
-  if (!create_window()) {
-    set_fail_bit(true);
+  if (!create())
     exit(1);
-  }
 }
 
-bool Window::initialize_sdl() {
+Window::~Window() {
+  if (m_window) {
+    SDL_DestroyWindow(m_window);
+    m_window = nullptr;
+  }
+
+  SDL_Quit();
+}
+
+bool Window::initSDL() {
   // Initialize SDL (Everything)
   if (!SDL_Init(SDL_INIT_EVERYTHING)) {
     std::cerr << "ERROR::SDL::SDL_INITIALIZATION_FAILED" << std::endl;
@@ -82,7 +79,7 @@ bool Window::initialize_sdl() {
   return true;
 }
 
-bool Window::create_window() {
+bool Window::create() {
   // Create SDL Window
   m_window = SDL_CreateWindow(m_win_title, m_posX, m_posY, m_width, m_height, m_flags);
   if (!m_window) {
@@ -103,8 +100,4 @@ void Window::setShouldClose(bool shouldClose) {
 
 bool Window::getShouldClose() {
   return m_should_close;
-}
-
-void Window::set_fail_bit(bool isFailed) {
-  m_fail_bit = isFailed;
 }

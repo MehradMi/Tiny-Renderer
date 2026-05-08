@@ -5,7 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <cstdint>
 #include <iostream>
-#include "window.h"
+#include "Window.h"
 #include "types.h"
 #include "color_buffer_texture.h"
 #include "color_buffer.h"

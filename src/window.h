@@ -10,6 +10,7 @@ class Window {
     Window();
     Window(const char* title, int x, int y, int flags);
     Window(const char* title, int x, int y, int width, int height, int flags);
+    ~Window();
 
     int  getWidth()  { return m_width; }          // getter: get window width
     int  getHeight() { return m_height; }         // getter: get window height
@@ -18,20 +19,21 @@ class Window {
     bool getFailBit();                            // getter: get fail_bit status
     SDL_Window* getSDLWindow();                   // getter: get m_window
 
-  private:
-    SDL_Window *m_window;                           // pointer to SDL window
-    int m_flags;                                    // SDL window flags
+    static void process_input();
 
-    const char* m_win_title;                        // SDL window title
+  private:
+    SDL_Window *m_window;                         // pointer to SDL window
+    int m_flags;                                  // SDL window flags
+
+    const char* m_win_title;                      // SDL window title
     int m_width, m_height;
     int m_posX,  m_posY;
 
     bool m_fail_bit;
     bool m_should_close;
 
-    bool initialize_sdl();
-    bool create_window();
-    void set_fail_bit(bool isFailed);
+    bool create();
+    static bool initSDL();
 };
 
 #endif

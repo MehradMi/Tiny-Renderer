@@ -9,7 +9,7 @@
 #include "triangle.h"
 #include "Vec2D.h"
 #include "Vec3D.h"
-#include "window.h"
+#include "Window.h"
 #include "renderer.h"
 #include "color_buffer.h"
 #include "color_buffer_texture.h"
