@@ -18,23 +18,18 @@ ColorBuffer::ColorBuffer(int w, int h):
   return;
 }
 
-int ColorBuffer::getPitch() {
-  return m_pitch;
-}
-
-pixel* ColorBuffer::getBuffer() {
-  return m_cb;
+ColorBuffer::~ColorBuffer() {
+  delete [] m_cb;
+  m_cb = nullptr;
 }
 
 void ColorBuffer::clear(hex_color color) {
     for (int y{0}; y < m_height; y++)
       for (int x{0}; x < m_width; x++)
-        drawPixel(color, x, y);
+        setPixel(color, x, y);
 }
 
-void ColorBuffer::drawPixel(
-  hex_color color,
-  int x, int y)
+void ColorBuffer::setPixel(int x, int y, hex_color color)
 {
   try {
     if (x >= 0 && x < m_width && y >= 0 && y < m_height)
@@ -61,7 +56,7 @@ void ColorBuffer::drawLine(
   float current_x = x0;
   float current_y = y0;
   for (int i{0}; i <= longest_side_length; i++) {
-    drawPixel(color, round(current_x), round(current_y));
+    setPixel(color, round(current_x), round(current_y));
     current_x += x_inc;
     current_y += y_inc;
   }
@@ -69,12 +64,12 @@ void ColorBuffer::drawLine(
 
 void ColorBuffer::drawGrid(
   hex_color color,
-  int x_interval, int y_interval) 
+  int x_interval, int y_interval)
 {
   for (auto y{0}; y < m_height; y++)
     for (auto x{0}; x < m_width; x++)
       if (y % y_interval == 0 || x % x_interval == 0)
-        drawPixel(color, x, y);
+        setPixel(color, x, y);
 }
 
 void ColorBuffer::drawRectangle(
@@ -86,7 +81,7 @@ void ColorBuffer::drawRectangle(
     for (int j{0}; j < h; j++) {
       int cur_x = x_pos + i;
       int cur_y = y_pos + j;
-      drawPixel(color, cur_x, cur_y);
+      setPixel(color, cur_x, cur_y);
     }
   }
 }

@@ -9,7 +9,7 @@
 #include "Window.h"
 #include "types.h"
 #include "color_buffer_texture.h"
-#include "color_buffer.h"
+#include "ColorBuffer.h"
 
 class Renderer {
   private:

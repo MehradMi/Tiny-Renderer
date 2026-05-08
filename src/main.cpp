@@ -6,12 +6,13 @@
 #include <sys/types.h>
 #include <vector>
 
-#include "triangle.h"
+#include "Triangle.h"
 #include "Vec2D.h"
 #include "Vec3D.h"
 #include "Window.h"
 #include "renderer.h"
-#include "color_buffer.h"
+#include "Rasterizer.h"
+#include "ColorBuffer.h"
 #include "color_buffer_texture.h"
 #include "mesh.h"
 
@@ -19,6 +20,7 @@
 #define FRAME_TARGET_TIME (1000 / FPS)
 
 ///////////////////////////////////////////////////////////////////////
+Rasterizer  *RS;
 ColorBuffer *CB;
 ColorBufferTexture *CBT;
 
@@ -83,11 +85,12 @@ void setup(Window *window, Renderer *renderer) {
       SDL_TEXTUREACCESS_STATIC,
       SDL_PIXELFORMAT_ABGR8888);
 
+  RS = new Rasterizer(*CB);
+
   renderer->setColorBuffer(CB);
   renderer->setColorBufferTexture(CBT);
 
   myMesh.loadMeshData("./assets/cube.obj");
-  //load_cube_mesh_data();
 }
 
 Vec2D orthographic_proj(Vec3D vector) {
@@ -114,6 +117,7 @@ void render(Window *window ,Renderer *renderer) {
   int num_triangles = triangles_to_render.size();
   for (int i{0}; i < num_triangles; i++) {
     Triangle _triangle = triangles_to_render[i];
+    /*
     CB->drawRectangle(
         0x0000FFFF,
         _triangle.points[0].x,
@@ -142,6 +146,33 @@ void render(Window *window ,Renderer *renderer) {
       _triangle.points[0].x, _triangle.points[0].y,
       _triangle.points[1].x, _triangle.points[1].y,
       _triangle.points[2].x, _triangle.points[2].y
+    );
+    */
+    RS->drawRectangle(
+        _triangle.points[0].x,
+        _triangle.points[0].y,
+        4, 4,
+        0x0000FFFF
+        );
+    RS->drawRectangle(
+        _triangle.points[1].x,
+        _triangle.points[1].y,
+        4, 4,
+        0x0000FFFF
+        );
+    RS->drawRectangle(
+        _triangle.points[2].x,
+        _triangle.points[2].y,
+        4, 4,
+        0x0000FFFF
+        );
+
+    // draw unfilled triangle
+    RS->drawTriangle(
+      _triangle.points[0].x, _triangle.points[0].y,
+      _triangle.points[1].x, _triangle.points[1].y,
+      _triangle.points[2].x, _triangle.points[2].y,
+      0x0000FFFF
     );
   }
 

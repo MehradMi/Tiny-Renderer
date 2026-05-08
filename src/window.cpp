@@ -12,7 +12,7 @@ Window::Window():
   m_fail_bit(false),
   m_should_close(false)
 {
-  if (!Window::initSDL())
+  if (!initSDL())
     exit(1);
 
   if (!create())
@@ -23,7 +23,7 @@ Window::Window(const char* title, int x, int y, int flags):
   m_window(nullptr),
   m_should_close(false)
 {
-  if (!Window::initSDL())
+  if (!initSDL())
     exit(1);
 
   m_win_title = title;
@@ -68,6 +68,23 @@ Window::~Window() {
 
   SDL_Quit();
 }
+
+/*
+void Window::process_input() {
+  SDL_Event event;
+  SDL_PollEvent(&event);
+
+  switch (event.type) {
+    case SDL_QUIT:
+      this->setShouldClose(true);
+      break;
+    case SDL_KEYDOWN:
+      if (event.key.keysym.sym == SDLK_ESCAPE) 
+        window->setShouldClose(true);
+      break;
+  }
+}
+*/
 
 bool Window::initSDL() {
   // Initialize SDL (Everything)

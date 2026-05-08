@@ -1,0 +1,41 @@
+#include "ColorBuffer.h"
+
+ColorBuffer::ColorBuffer(int w, int h):
+  m_width(w),
+  m_height(h),
+  m_pitch(m_width * sizeof(pixel)),
+  m_cb(nullptr)
+{
+  if (m_width && m_height) {
+    try {
+      m_cb = new (std::nothrow) pixel[m_width * m_height];
+    } catch (const std::exception& e) {
+      std::cerr << "ERROR::COLOR_BUFFER::COLOR_BUFFER CONSTRUCTOR FAILED: " << e.what() << std::endl;
+      return;
+    }
+  }
+
+  return;
+}
+
+ColorBuffer::~ColorBuffer() {
+  delete [] m_cb;
+  m_cb = nullptr;
+}
+
+void ColorBuffer::setPixel(int x, int y, hex_color color)
+{
+  try {
+    if (x >= 0 && x < m_width && y >= 0 && y < m_height)
+      m_cb[ (m_width * y) + x] = color;
+  } catch(const std::exception &e) {
+    std::cerr << "ERROR::COLOR_BUFFER::COLOR_PIXEL FUNCTION FAILED: " << e.what() << std::endl;
+  }
+}
+
+void ColorBuffer::clear(hex_color color) {
+    for (int y{0}; y < m_height; y++)
+      for (int x{0}; x < m_width; x++)
+        //setPixel(color, x, y);
+        setPixel(x, y, color);
+}

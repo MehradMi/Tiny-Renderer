@@ -32,8 +32,8 @@ class Window {
     bool m_fail_bit;
     bool m_should_close;
 
+    bool initSDL();
     bool create();
-    static bool initSDL();
 };
 
 #endif
