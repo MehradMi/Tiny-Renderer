@@ -14,7 +14,7 @@
 #include "Rasterizer.h"
 #include "ColorBuffer.h"
 #include "ColorBufferTexture.h"
-#include "mesh.h"
+#include "Mesh.h"
 
 #define FPS 30
 #define FRAME_TARGET_TIME (1000 / FPS)
@@ -32,6 +32,10 @@ Vec3D camera_position {0, 0,  0};
 Vec2D projected_vertices[VERTICES_COUNT];
 
 std::vector<Triangle> triangles_to_render;
+
+Mesh cubeMesh("./assets/cube.obj");
+Mesh diabloMesh("./assets/diablo3_post.obj");
+Mesh f22Mesh("./assets/f22.obj");
 ///////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////
@@ -70,8 +74,8 @@ int main() {
     render(program_window , program_renderer);
   }
 
-  myMesh.vertices.clear();
-  myMesh.faces.clear();
+  cubeMesh.vertices.clear();
+  cubeMesh.faces.clear();
 
   return 0;
 }
@@ -89,8 +93,6 @@ void setup(Window *window, Renderer *renderer) {
 
   renderer->setColorBuffer(CB);
   renderer->setColorBufferTexture(CBT);
-
-  myMesh.loadMeshData("./assets/cube.obj");
 }
 
 Vec2D orthographic_proj(Vec3D vector) {
@@ -117,37 +119,6 @@ void render(Window *window ,Renderer *renderer) {
   int num_triangles = triangles_to_render.size();
   for (int i{0}; i < num_triangles; i++) {
     Triangle _triangle = triangles_to_render[i];
-    /*
-    CB->drawRectangle(
-        0x0000FFFF,
-        _triangle.points[0].x,
-        _triangle.points[0].y,
-        4,
-        4
-        );
-    CB->drawRectangle(
-        0x0000FFFF,
-        _triangle.points[1].x,
-        _triangle.points[1].y,
-        4,
-        4
-        );
-    CB->drawRectangle(
-        0x0000FFFF,
-        _triangle.points[2].x,
-        _triangle.points[2].y,
-        4,
-        4
-        );
-
-    // draw unfilled triangle
-    CB->drawTriangle(
-      0x0000FFFF,
-      _triangle.points[0].x, _triangle.points[0].y,
-      _triangle.points[1].x, _triangle.points[1].y,
-      _triangle.points[2].x, _triangle.points[2].y
-    );
-    */
     RS->drawRectangle(
         _triangle.points[0].x,
         _triangle.points[0].y,
@@ -208,18 +179,18 @@ void update(Window *window) {
 
   previous_frame_time =  SDL_GetTicks();
 
-  myMesh.rotation.x += 0.01;
-  myMesh.rotation.y += 0.01;
-  myMesh.rotation.z += 0.01;
+  cubeMesh.rotation.x += 0.01;
+  cubeMesh.rotation.y += 0.01;
+  cubeMesh.rotation.z += 0.01;
 
-  int num_faces = myMesh.faces.size();
+  int num_faces = cubeMesh.faces.size();
   for (int i{0}; i < num_faces; i++) {
-    Face mesh_face = myMesh.faces[i];
+    Face mesh_face = cubeMesh.faces[i];
 
     Vec3D face_vertices[3];
-    face_vertices[0] = myMesh.vertices[mesh_face.a - 1];
-    face_vertices[1] = myMesh.vertices[mesh_face.b - 1];
-    face_vertices[2] = myMesh.vertices[mesh_face.c - 1];
+    face_vertices[0] = cubeMesh.vertices[mesh_face.a - 1];
+    face_vertices[1] = cubeMesh.vertices[mesh_face.b - 1];
+    face_vertices[2] = cubeMesh.vertices[mesh_face.c - 1];
 
     Vec3D transformed_vertices[3];
 
@@ -227,14 +198,14 @@ void update(Window *window) {
     for (int j{0}; j < 3; j++) {
       Vec3D _transformed_vertex = face_vertices[j];
 
-      _transformed_vertex.Rotate(Axis::X, myMesh.rotation.x);
-      _transformed_vertex.Rotate(Axis::Y, myMesh.rotation.y);
-      _transformed_vertex.Rotate(Axis::Z, myMesh.rotation.z);
+      _transformed_vertex.Rotate(Axis::X, cubeMesh.rotation.x);
+      _transformed_vertex.Rotate(Axis::Y, cubeMesh.rotation.y);
+      _transformed_vertex.Rotate(Axis::Z, cubeMesh.rotation.z);
 
       /*
-      _transformed_vertex.StrangeRotate(Axis::X, myMesh.rotation.x);
-      _transformed_vertex.StrangeRotate(Axis::Y, myMesh.rotation.y);
-      _transformed_vertex.StrangeRotate(Axis::Z, myMesh.rotation.z);
+      _transformed_vertex.StrangeRotate(Axis::X, cubeMesh.rotation.x);
+      _transformed_vertex.StrangeRotate(Axis::Y, cubeMesh.rotation.y);
+      _transformed_vertex.StrangeRotate(Axis::Z, cubeMesh.rotation.z);
       */
 
       // pushing the vertices away by 5 units

@@ -12,7 +12,7 @@ void Triangle::sortVertices(
   }
   if (y1 > y2) {
     std::swap(y1, y2);
-    std::swap(x2, x2);
+    std::swap(x1, x2);
   }
   if (y0 > y1) {
     std::swap(y0, y1);

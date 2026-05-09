@@ -1,5 +1,9 @@
 #include "mesh.h"
 
+Mesh::Mesh(const std::string& obj_path) {
+  loadMeshData(obj_path);
+}
+
 void Mesh::loadMeshData(const std::string& obj_path) {
   std::ifstream obj_file;
   obj_file.exceptions(std::ifstream::badbit);
@@ -45,53 +49,3 @@ void Mesh::loadMeshData(const std::string& obj_path) {
   }
 }
 
-Mesh::Mesh(const char* obj_path) {
-
-}
-
-Mesh myMesh{};
-
-Vec3D cube_vertices[NUM_CUBE_VERTICES] = {
-  {-1, -1, -1},
-  {-1, +1, -1},
-  {+1, +1, -1},
-  {+1, -1, -1},
-  {+1, +1, +1},
-  {+1, -1, +1},
-  {-1, +1, +1},
-  {-1, -1, +1},
-};
-
-
-Face cube_faces[NUM_CUBE_FACES] = {
-  // front
-  {1, 2, 3},
-  {1, 3, 4},
-  // right
-  {4, 3, 5},
-  {4, 5, 6},
-  // back
-  {6, 5, 7},
-  {6, 7, 8},
-  // left
-  {8, 7, 2},
-  {8, 2, 1},
-  // top
-  {2, 7, 5},
-  {2, 5, 3},
-  // bottom
-  {6, 8, 1},
-  {6, 1, 4},
-};
-
-void load_cube_mesh_data(void) {
-  for (int i{0}; i < NUM_CUBE_VERTICES; i++) {
-    Vec3D _cube_vertex = cube_vertices[i];
-    myMesh.vertices.push_back(_cube_vertex);
-  }
-
-  for (int i{0}; i < NUM_CUBE_FACES; i++) {
-    Face _cube_face = cube_faces[i];
-    myMesh.faces.push_back(_cube_face);
-  }
-}
