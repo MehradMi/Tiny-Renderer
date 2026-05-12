@@ -9,22 +9,26 @@
 #include "types.h"
 
 class ColorBuffer {
-  private:
-    int    m_width;
-    int    m_height;
-    int    m_pitch;
-    pixel *m_cb;
+private:
+  int    m_width;
+  int    m_height;
+  int    m_pitch;
+  pixel *m_cb;
 
 
-  public:
-    ColorBuffer(int w, int h);
-    ~ColorBuffer();
+public:
+  ColorBuffer(int w, int h);
+  ColorBuffer(const ColorBuffer&) = delete;
+  ColorBuffer& operator=(const ColorBuffer&) = delete;
+  ColorBuffer(ColorBuffer&&) noexcept;
+  ColorBuffer& operator=(ColorBuffer&&) noexcept;
+  ~ColorBuffer();
 
-    int getPitch()     { return m_pitch; }
-    pixel* getBuffer() { return m_cb; }
+  int getPitch()     { return m_pitch; }
+  pixel* getBuffer() { return m_cb; }
 
-    void setPixel(int x, int y, hex_color color);
-    void clear(hex_color color);
+  void setPixel(int x, int y, hex_color color);
+  void clear(hex_color color);
 };
 
 #endif

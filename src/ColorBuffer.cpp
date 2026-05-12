@@ -18,8 +18,37 @@ ColorBuffer::ColorBuffer(int w, int h):
   return;
 }
 
+ColorBuffer::ColorBuffer(ColorBuffer&& other) noexcept :
+  m_width(other.m_width),
+  m_height(other.m_height),
+  m_pitch(other.m_pitch),
+  m_cb(other.m_cb)
+{
+  // Nullify "other"
+  other.m_width  = 0;
+  other.m_height = 0;
+  other.m_pitch  = 0;
+  other.m_cb     = nullptr;
+}
+
+ColorBuffer& ColorBuffer::operator=(ColorBuffer&& other) noexcept {
+  // Self-Assignment Check
+  if (this == &other)
+    return *this;
+
+  // Clean Up Our Existing Resource
+  delete[] m_cb;
+
+  m_width  = other.m_width;
+  m_height = other.m_height;
+  m_pitch  = other.m_pitch;
+  m_cb     = nullptr;
+
+  return *this;
+}
+
 ColorBuffer::~ColorBuffer() {
-  delete [] m_cb;
+  delete[] m_cb;
   m_cb = nullptr;
 }
 
