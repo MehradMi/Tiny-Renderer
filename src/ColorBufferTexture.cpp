@@ -15,6 +15,53 @@ ColorBufferTexture::ColorBufferTexture(SDL_Renderer *r, int w, int h, int a, uin
   }
 }
 
+ColorBufferTexture::ColorBufferTexture(ColorBufferTexture&& other) noexcept:
+  m_width(other.m_width),
+  m_height(other.m_height),
+  m_access(other.m_access),
+  m_format(other.m_format),
+  m_cbt(other.m_cbt),
+  m_rendering_context(other.m_rendering_context)
+{
+  // Nullify "other"
+  other.m_width  = 0;
+  other.m_height = 0;
+  other.m_height = 0;
+  other.m_access = 0;
+  other.m_format = 0;
+  other.m_cbt    = nullptr;
+  other.m_rendering_context = nullptr;
+}
+
+ColorBufferTexture& ColorBufferTexture::operator=(ColorBufferTexture&& other) noexcept {
+  // Self-Assignment Check
+  if (this == &other)
+    return *this;
+
+  // Clean Up Current Existing Resources Before Replacing Them
+  if (m_cbt)
+    SDL_DestroyTexture(m_cbt);
+
+  // Steal Resources
+  m_width  = other.m_width;
+  m_height = other.m_height;
+  m_access = other.m_access;
+  m_format = other.m_format;
+  m_cbt    = other.m_cbt;
+  m_rendering_context = other.m_rendering_context;
+
+  // Nullify "other"
+  other.m_width  = 0;
+  other.m_height = 0;
+  other.m_height = 0;
+  other.m_access = 0;
+  other.m_format = 0;
+  other.m_cbt    = nullptr;
+  other.m_rendering_context = nullptr;
+
+  return *this;
+}
+
 ColorBufferTexture::~ColorBufferTexture() {
   if (m_cbt) {
     SDL_DestroyTexture(m_cbt);
