@@ -37,7 +37,8 @@ ColorBuffer& ColorBuffer::operator=(ColorBuffer&& other) noexcept {
     return *this;
 
   // Clean Up Our Existing Resource
-  delete[] m_cb;
+  if (m_cb)
+    delete[] m_cb;
 
   // Steal the buffer pointer
   m_width  = other.m_width;
