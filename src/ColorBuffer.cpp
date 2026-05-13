@@ -39,10 +39,17 @@ ColorBuffer& ColorBuffer::operator=(ColorBuffer&& other) noexcept {
   // Clean Up Our Existing Resource
   delete[] m_cb;
 
+  // Steal the buffer pointer
   m_width  = other.m_width;
   m_height = other.m_height;
   m_pitch  = other.m_pitch;
-  m_cb     = nullptr;
+  m_cb     = other.m_cb;
+
+  // Nullify the source ("other")
+  other.m_width  = 0;
+  other.m_height = 0;
+  other.m_pitch  = 0;
+  other.m_cb     = nullptr;
 
   return *this;
 }
