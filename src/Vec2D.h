@@ -8,11 +8,12 @@ struct Vec2D {
   float x;
   float y;
 
+  Vec2D operator+(const Vec2D&) const;
+  Vec2D operator-(const Vec2D&) const;
+  Vec2D operator*(const float&) const;
+  Vec2D operator/(const float&) const;
+
   static float length(Vec2D v);
-  static Vec2D add(Vec2D a, Vec2D b);
-  static Vec2D sub(Vec2D a, Vec2D b);
-  static Vec2D mul(Vec2D a, float s);
-  static Vec2D div(Vec2D a, float s);
   static float dot(Vec2D a, Vec2D b);
   static void  normalize(Vec2D& v);
 };

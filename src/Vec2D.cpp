@@ -5,45 +5,41 @@ float Vec2D::length(Vec2D v) {
   return _length;
 }
 
-Vec2D Vec2D::add(Vec2D a, Vec2D b) {
+Vec2D Vec2D::operator+(const Vec2D& rhs) const {
   Vec2D _result {
-    a.x + b.x,
-    a.y + b.y
+    x + rhs.x,
+    y + rhs.y
   };
-
   return _result;
 }
 
-Vec2D Vec2D::sub(Vec2D a, Vec2D b) {
+Vec2D Vec2D::operator-(const Vec2D& rhs) const {
   Vec2D _result {
-    a.x - b.x,
-    a.y - b.y
+    x - rhs.x,
+    y - rhs.y
   };
-
   return _result;
 }
 
-Vec2D Vec2D::mul(Vec2D a, float s) {
+Vec2D Vec2D::operator*(const float& rhs) const {
   Vec2D _result {
-    a.x * s,
-    a.y * s,
+    x * rhs,
+    y * rhs,
   };
-
   return _result;
 }
 
-Vec2D Vec2D::div(Vec2D a, float s) {
-  if (s != 0.0f) {
+Vec2D Vec2D::operator/(const float& rhs) const {
+  if (rhs != 0.0f) {
     Vec2D _result {
-      a.x / s,
-      a.y / s,
+      x / rhs,
+      y / rhs
     };
-
     return _result;
   }
 
   std::cerr << "ERROR::VEC2D::DIVISION_BY_ZERO" << std::endl;
-  return a;
+  return *this;
 }
 
 float Vec2D::dot(Vec2D a, Vec2D b) {
