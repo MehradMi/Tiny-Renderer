@@ -26,7 +26,6 @@ ColorBufferTexture::ColorBufferTexture(ColorBufferTexture&& other) noexcept:
   // Nullify "other"
   other.m_width  = 0;
   other.m_height = 0;
-  other.m_height = 0;
   other.m_access = 0;
   other.m_format = 0;
   other.m_cbt    = nullptr;
