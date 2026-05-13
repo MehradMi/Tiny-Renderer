@@ -22,7 +22,7 @@ public:
   ColorBufferTexture& operator=(ColorBufferTexture&&) noexcept;
   ~ColorBufferTexture();
 
-  SDL_Texture* getTexture() { return m_cbt; }
+  SDL_Texture* getTexture() const { return m_cbt; }
 };
 
 #endif
