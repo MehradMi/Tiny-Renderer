@@ -18,6 +18,12 @@ public:
     hex_color color
   );
 
+  void drawCircle(
+    int cx, int cy,
+    int r,
+    hex_color color
+  );
+
   void drawGrid(
     int x_interval = 10, int y_interval = 10,
     hex_color color = 0xFF000000

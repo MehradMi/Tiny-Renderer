@@ -149,6 +149,10 @@ void render(Window *window ,Renderer *renderer) {
 
   triangles_to_render.clear();
 
+  /*
+  RS->drawCircle(500, 500, 100, 0x0000FFFF);
+  */
+
   renderer->renderColorBuffer();
   CB->clear(0xFF000000);
   SDL_RenderPresent(_sdl_renderer);
@@ -202,11 +206,11 @@ void update(Window *window) {
       _transformed_vertex.Rotate(Axis::Y, cubeMesh.rotation.y);
       _transformed_vertex.Rotate(Axis::Z, cubeMesh.rotation.z);
 
-      /*
-      _transformed_vertex.StrangeRotate(Axis::X, cubeMesh.rotation.x);
-      _transformed_vertex.StrangeRotate(Axis::Y, cubeMesh.rotation.y);
-      _transformed_vertex.StrangeRotate(Axis::Z, cubeMesh.rotation.z);
-      */
+      //
+      //_transformed_vertex.StrangeRotate(Axis::X, cubeMesh.rotation.x);
+      //_transformed_vertex.StrangeRotate(Axis::Y, cubeMesh.rotation.y);
+      //_transformed_vertex.StrangeRotate(Axis::Z, cubeMesh.rotation.z);
+      //
 
       // pushing the vertices away by 5 units
       _transformed_vertex.z += 5;
@@ -215,9 +219,9 @@ void update(Window *window) {
     }
     
     // NOTE: Backface Culling
-    Vec3D _vector_a = transformed_vertices[0]; /*   A   */
-    Vec3D _vector_b = transformed_vertices[1]; /*  / \  */
-    Vec3D _vector_c = transformed_vertices[2]; /* C - B */
+    Vec3D _vector_a = transformed_vertices[0]; //   A   //
+    Vec3D _vector_b = transformed_vertices[1]; //  / \  //
+    Vec3D _vector_c = transformed_vertices[2]; // C - B //
 
     Vec3D vector_ab = _vector_b - _vector_a;
     Vec3D vector_ac = _vector_c - _vector_a;
@@ -236,7 +240,7 @@ void update(Window *window) {
       continue;
     }
 
-    /* =================================================== */
+    // =================================================== //
     // NOTE: Loop all three vertices and perform "projection"
     Triangle projected_triangle;
     for (int j{0}; j < 3; j++) {
@@ -248,7 +252,7 @@ void update(Window *window) {
 
       projected_triangle.points[j] = _projected_point;
     }
-    /* =================================================== */
+    // =================================================== //
 
     triangles_to_render.push_back(projected_triangle);
   }

@@ -29,6 +29,41 @@ void Rasterizer::drawLine(
   }
 }
 
+void Rasterizer::drawCircle(
+  int cx, int cy,
+  int r,
+  hex_color color
+)
+{
+  int x = 0;
+  int y = r;
+  int d = 3 - (2 * r);
+
+  // plot 8 pixel
+  while (x <= y) {
+    // Plot 8 symmetric points around (cx, cy)
+    m_colorBuffer.setPixel(cx + x, cy + y, color);
+    m_colorBuffer.setPixel(cx + y, cy + x, color);
+    
+    m_colorBuffer.setPixel(cx - x, cy + y, color);
+    m_colorBuffer.setPixel(cx + y, cy - x, color);
+    
+    m_colorBuffer.setPixel(cx + x, cy - y, color);
+    m_colorBuffer.setPixel(cx - y, cy + x, color);
+    
+    m_colorBuffer.setPixel(cx - x, cy - y, color);
+    m_colorBuffer.setPixel(cx - y, cy - x, color);
+
+    if (d < 0)
+      d = d + (4 * x) + 6;
+    else {
+      d += 4 * (x - y) + 10;
+      y--;
+    }
+    x++;
+  }
+}
+
 /*
 void Rasterizer::drawGrid(
   int x_interval, int y_interval,
