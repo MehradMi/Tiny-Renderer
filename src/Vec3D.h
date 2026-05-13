@@ -18,11 +18,12 @@ struct Vec3D {
   void Rotate(Axis a, float angle);
   void StrangeRotate(Axis a, float angle);
 
+  Vec3D operator+(const Vec3D&) const;
+  Vec3D operator-(const Vec3D&) const;
+  Vec3D operator*(const float&) const;
+  Vec3D operator/(const float&) const;
+
   static float length(Vec3D v);
-  static Vec3D add(Vec3D a, Vec3D b);
-  static Vec3D sub(Vec3D a, Vec3D b);
-  static Vec3D mul(Vec3D a, float s);
-  static Vec3D div(Vec3D a, float s);
   static Vec3D cross(Vec3D a, Vec3D b);
   static float dot(Vec3D a, Vec3D b);
   static void  normalize(Vec3D& v);

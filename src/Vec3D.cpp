@@ -51,55 +51,50 @@ void Vec3D::StrangeRotate(Axis a, float angle) {
   };
 }
 
-
-float Vec3D::length(Vec3D v) {
-  float _length = std::sqrt(std::pow(v.x, 2) + std::pow(v.y, 2) + std::pow(v.z, 2)); 
-  return _length;
-}
-
-Vec3D Vec3D::add(Vec3D a, Vec3D b) {
+Vec3D Vec3D::operator+(const Vec3D& rhs) const {
   Vec3D _result {
-    a.x + b.x,
-    a.y + b.y,
-    a.z + b.z
+    this->x + rhs.x,
+    this->y + rhs.y,
+    this->z + rhs.z
   };
-
   return _result;
 }
 
-Vec3D Vec3D::sub(Vec3D a, Vec3D b) {
+Vec3D Vec3D::operator-(const Vec3D& rhs) const {
   Vec3D _result {
-    a.x - b.x,
-    a.y - b.y,
-    a.z - b.z
+    this->x - rhs.x,
+    this->y - rhs.y,
+    this->z - rhs.z
   };
-
   return _result;
 }
 
-Vec3D Vec3D::mul(Vec3D a, float s) {
+Vec3D Vec3D::operator*(const float& rhs) const {
   Vec3D _result {
-    a.x * s,
-    a.y * s,
-    a.z * s
+    this->x * rhs,
+    this->y * rhs,
+    this->z * rhs
   };
-
   return _result;
 }
 
-Vec3D Vec3D::div(Vec3D a, float s) {
-  if (s != 0.0f) {
+Vec3D Vec3D::operator/(const float& rhs) const {
+  if (rhs != 0.0f) {
     Vec3D _result {
-      a.x / s,
-      a.y / s,
-      a.z / s,
+      this->x / rhs,
+      this->y / rhs,
+      this->z / rhs,
     };
-
     return _result;
   }
 
   std::cerr << "ERROR::VEC2D::DIVISION_BY_ZERO" << std::endl;
-  return a;
+  return *this;
+}
+
+float Vec3D::length(Vec3D v) {
+  float _length = std::sqrt(std::pow(v.x, 2) + std::pow(v.y, 2) + std::pow(v.z, 2)); 
+  return _length;
 }
 
 Vec3D Vec3D::cross(Vec3D a, Vec3D b) {
