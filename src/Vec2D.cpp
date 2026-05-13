@@ -49,6 +49,8 @@ float Vec2D::dot(Vec2D a, Vec2D b) {
 
 void Vec2D::normalize(Vec2D& v) {
   float _length { Vec2D::length(v) };
+  if (_length == 0) return;
+
   v.x /= _length;
   v.y /= _length;
 }
