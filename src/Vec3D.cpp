@@ -114,6 +114,8 @@ float Vec3D::dot(Vec3D a, Vec3D b) {
 
 void Vec3D::normalize(Vec3D& v) {
   float _length { Vec3D::length(v) };
+  if (_length == 0) return;
+
   v.x /= _length;
   v.y /= _length;
   v.z /= _length;
