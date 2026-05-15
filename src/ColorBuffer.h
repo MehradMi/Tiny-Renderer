@@ -4,7 +4,7 @@
 #include <SDL2/SDL_render.h>
 #include <exception>
 #include <iostream>
-#include <new>
+#include <memory>
 
 #include "types.h"
 
@@ -13,19 +13,21 @@ private:
   int    m_width;
   int    m_height;
   int    m_pitch;
-  pixel *m_cb;
+  std::unique_ptr<pixel[]> m_buffer;
 
 
 public:
-  ColorBuffer(int w, int h);
+  ColorBuffer() = delete;
   ColorBuffer(const ColorBuffer&) = delete;
   ColorBuffer& operator=(const ColorBuffer&) = delete;
   ColorBuffer(ColorBuffer&&) noexcept;
   ColorBuffer& operator=(ColorBuffer&&) noexcept;
-  ~ColorBuffer();
+  ~ColorBuffer() = default;
+
+  ColorBuffer(int w, int h);
 
   int getPitch()     { return m_pitch; }
-  pixel* getBuffer() { return m_cb; }
+  pixel* getBuffer() { return m_buffer.get(); }
 
   void setPixel(int x, int y, hex_color color);
   void clear(hex_color color);
