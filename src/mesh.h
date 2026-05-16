@@ -17,8 +17,8 @@ public:
   Mesh() = delete;
   Mesh(const Mesh&) = delete;
   Mesh& operator=(const Mesh&) = delete;
-  Mesh(const Mesh&&) noexcept;
-  Mesh& operator=(const Mesh&&) noexcept;
+  Mesh(Mesh&&) noexcept;
+  Mesh& operator=(Mesh&&) noexcept;
   ~Mesh() = default;
 
   Mesh(const std::string& obj_path);

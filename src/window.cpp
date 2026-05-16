@@ -19,29 +19,6 @@ Window::Window():
     exit(1);
 }
 
-Window::Window(const char* title, int x, int y, int flags):
-  m_window(nullptr),
-  m_should_close(false)
-{
-  if (!initSDL())
-    exit(1);
-
-  m_win_title = title;
-  m_posX      = x;
-  m_posY      = y;
-  m_flags = flags;
-
-  SDL_DisplayMode display_mode;
-  SDL_GetCurrentDisplayMode(0, &display_mode);
-  m_width  = display_mode.w;
-  m_height = display_mode.h;
-
-  if (!create())
-    exit(1);
-  else
-    std::cout << m_width << " " << m_height << std::endl;
-}
-
 Window::Window(const char* title, int x, int y, int width, int height, int flags):
   m_window(nullptr),
   m_should_close(false)
@@ -68,23 +45,6 @@ Window::~Window() {
 
   SDL_Quit();
 }
-
-/*
-void Window::process_input() {
-  SDL_Event event;
-  SDL_PollEvent(&event);
-
-  switch (event.type) {
-    case SDL_QUIT:
-      this->setShouldClose(true);
-      break;
-    case SDL_KEYDOWN:
-      if (event.key.keysym.sym == SDLK_ESCAPE) 
-        window->setShouldClose(true);
-      break;
-  }
-}
-*/
 
 bool Window::initSDL() {
   // Initialize SDL (Everything)
