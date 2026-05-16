@@ -13,17 +13,22 @@
 #include "Triangle.h"
 
 class Mesh {
-  public:
-    
-    Mesh() = delete;
-    Mesh(const std::string& obj_path);
+public:
+  Mesh() = delete;
+  Mesh(const Mesh&) = delete;
+  Mesh& operator=(const Mesh&) = delete;
+  Mesh(const Mesh&&) noexcept;
+  Mesh& operator=(const Mesh&&) noexcept;
+  ~Mesh() = default;
 
-    std::vector<Vec3D> vertices;
-    std::vector<Face>  faces;
-    Vec3D rotation;
+  Mesh(const std::string& obj_path);
 
-  private:
-    void loadMeshData(const std::string& obj_path);
+  std::vector<Vec3D> vertices;
+  std::vector<Face>  faces;
+  Vec3D rotation;
+
+private:
+  void loadMeshData(const std::string& obj_path);
 };
 
 #endif

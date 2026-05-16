@@ -20,12 +20,19 @@ struct Triangle {
     hex_color color
   );
 
-  private:
-    static void sortVertices(
-      int& x0, int& y0,
-      int& x1, int& y1,
-      int& x2, int& y2
-    );
+private:
+  static void sortVertices(
+    int& x0, int& y0,
+    int& x1, int& y1,
+    int& x2, int& y2
+  );
+
+  static void flatBottom(
+    int x0, int y0,
+    int x1, int y1,
+    int mx, int my,
+    hex_color color
+  );
 };
 
 #endif
